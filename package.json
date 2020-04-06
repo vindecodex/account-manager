@@ -1,0 +1,26 @@
+{
+  "name": "account-manager",
+  "version": "1.0.0",
+  "description": "**Simple Crud Operation** *I created this project to guide me in creating future projects*",
+  "main": "server.js",
+  "scripts": {
+	"dev": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vindecodex/account-manager.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vindecodex/account-manager/issues"
+  },
+  "homepage": "https://github.com/vindecodex/account-manager#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.7",
+    "nodemon": "^2.0.2"
+  }
+}
