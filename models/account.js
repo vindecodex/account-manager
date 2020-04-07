@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
 // Schema
-const AccountSchema = new mongoose.Schema({
+const accountSchema = new mongoose.Schema({
   username: {
 	type: String,
 	unique: true,
@@ -10,12 +10,15 @@ const AccountSchema = new mongoose.Schema({
   },
   password: {
 	type: String,
-	required: [true, 'password is required' ]
+	required: [true, 'password is required' ],
+	// set select to false so that password could not be included during selection
+	// if want to select the password set select('+password') on controllers
+	select: false
   }
 });
 
 // Hashing the password
-AccountSchema.pre('save', async function(next) {
+accountSchema.pre('save', async function(next) {
   // check if password was modified if not then return next middleware
   // to avoid hashing password again and again even if it was not modified
   if (!this.isModified('password')) return next();
@@ -27,8 +30,13 @@ AccountSchema.pre('save', async function(next) {
   next();
 })
 
+// we add correctPassword in our Schema by calling .methods.yourMethodToBeAdded
+accountSchema.methods.correctPassword = async function(passwordInput, userPassword) {
+  return await bcrypt.compare(passwordInput, userPassword);
+}
+
 // Create Model
 // Model first letter must be capital
-const Account = mongoose.model('Account', AccountSchema);
+const Account = mongoose.model('Account', accountSchema);
 
 module.exports = Account;
