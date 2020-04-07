@@ -2,7 +2,8 @@ const jwt = require('jsonwebtoken');
 const Account = require('../models/account');
 
 const signToken = id => {
-  return jwt.sign({ id }, process.env.JWT, { expiresIn: '1m' });
+  // 60sec * 30 = 30mins
+  return jwt.sign({ id }, process.env.JWT, { expiresIn: 60 * 30 });
 }
 
 exports.createAccount = async (req, res) => {
@@ -29,36 +30,70 @@ exports.createAccount = async (req, res) => {
 }
 
 exports.login = async (req, res, next) => {
+  try {
 
-  const { username, password } = req.body;
+	const { username, password } = req.body;
 
-  // check input if not empty
-  if (!username || !password) {
-	// res.status(400).json({
-	  // status: 'fail',
-	  // message: 'email or password is empty'
-	// })
-	return next();
+	// check input if not empty
+	if (!username || !password) {
+	  return next(res.status(400).json({status: 'fail', message: 'Email or Password is empty'}));
+	}
+
+	// check if account exist
+	const account = await Account.findOne({ username }).select('+password');
+	// since account now is equal to Account we can use account to use Account Schema
+	const correct = await account.correctPassword(password, account.password);
+
+	if (!account || !correct) {
+	  return next(res.status(401).json({status: 'fail', message: 'Unauthorized email or password is incorrect'}));
+	}
+
+	// signing of token
+	const token = signToken(account._id);
+
+	res.status(200).json({
+	  status: 'success',
+	  token
+	});
   }
-
-  // check if account exist
-  const account = await Account.findOne({ username }).select('+password');
-  // since account now is equal to Account we can use account to use Account Schema
-  const correct = await account.correctPassword(password, account.password);
-
-  if (!account || !correct) {
-	// res.status(401).json({
-	  // status: 'fail',
-	  // message: 'Unauthorized email or password incorrect'
-	// });
-	return next();
+  catch(err) {
+	res.status(401).json({
+	  status: 'fail',
+	  message: err
+	});
   }
+}
 
-  // signing of token
-  const token = signToken(account._id);
+exports.protect = async (req, res, next) => {
+  try {
+	// Get the token and check if not empty
+	const authorization = req.headers.authorization;
+	let token;
+	if (authorization && authorization.startsWith('Bearer')) {
+	  token = authorization.split(' ')[1];
+	}
 
-  res.status(200).json({
-	status: 'success',
-	token
-  });
+	// if no token
+	if (!token) {
+	  return next(res.status(401).json({status: 'fail', message: 'You\'re not login please login.'}));
+	}
+
+	// verify the token if valid
+	const decoded = await jwt.verify(token, process.env.JWT);
+
+	// check if account exist
+	const account = await Account.findById(decoded.id);
+
+	if (!account) {
+	  return next(res.status(401).json({status: 'fail', message: 'Account does not exist'}));
+	}
+
+	next();
+  }
+  catch(err) {
+	res.status(401).json({
+	  status: 'fail',
+	  message: err
+	});
+  }
 }
