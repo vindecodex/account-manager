@@ -34,23 +34,6 @@ exports.getAccount = async (req, res) => {
   }
 }
 
-exports.newAccount = async (req, res) => {
-  try {
-	console.log(req.body);
-	const account = await Account.create(req.body);
-	res.status(201).json({
-	  status: 'success',
-	  account
-	});
-  }
-  catch(err) {
-	res.status(400).json({
-	  status: 'fail',
-	  message: err
-	});
-  }
-}
-
 exports.updateAccount = async (req, res) => {
   try {
 	// params new will return the new data's while runValidators will check schema validation if it is fill in or has a correct data type
