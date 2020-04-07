@@ -12,4 +12,8 @@ app.use(express.static(path.join(__dirname + '/public')));
 
 app.use('/api/v1/accounts', accountRoutes);
 
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
 module.exports = app;
