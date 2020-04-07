@@ -6,18 +6,18 @@
   <form>
   <div class="field">
 	<label for="username">username</label>
-	<input id="username" type="text" placeholder="username" required>
+	<input id="username" type="text" placeholder="username" ref="username" required>
   </div>
   <div class="field">
 	<label for="password">password</label>
-	<input id="password" type="password" placeholder="password" required>
+	<input id="password" type="password" placeholder="password" ref="password" required>
   </div>
   <div class="field">
 	<label for="password">Confirm Password</label>
-	<input id="confirm_password" type="password" placeholder="confirm password" required>
+	<input id="confirm_password" type="password" placeholder="confirm password" ref="confirm_password" required>
   </div>
   <div class="action">
-	<button class="btn post-btn">Register</button>
+	<button @click="register()" class="btn post-btn">Register</button>
 	<a href="/" class="btn default-btn">Back</a>
   </div>
   </form>
@@ -25,8 +25,24 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
-  name: 'Register'
+  name: 'Register',
+  data() {
+  return {
+  registerInput: {}
+  }
+  },
+  methods: {
+  register() {
+  this.registerInput.username = this.$refs.username.value
+  this.registerInput.password = this.$refs.password.value
+  this.registerInput.confirm_password = this.$refs.confirm_password.value
+  axios.post('/api/v1/accounts', this.registerInput)
+  .then(res => { console.log(res) })
+  .catch(err => console.log(err));
+  }
+  }
 }
 </script>
 

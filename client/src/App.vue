@@ -86,6 +86,12 @@ font-size: inherit;
 max-width: 420px;
 width: 100%;
 margin: 0 0 0 3%;
+overflow: hidden;
+}
+
+.field input:focus {
+outline: none;
+box-shadow: 0px 0px 0px 1px #000 inset;
 }
 
 @media only screen and (max-width: 800px) {
