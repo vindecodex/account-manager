@@ -17,7 +17,7 @@
 	<input id="confirm_password" type="password" placeholder="confirm password" ref="confirm_password" required>
   </div>
   <div class="action">
-	<button @click="register()" class="btn post-btn">Register</button>
+	<button type="button" @click="register(e)" class="btn post-btn">Register</button>
 	<a href="/" class="btn default-btn">Back</a>
   </div>
   </form>
@@ -33,14 +33,14 @@ export default {
   registerInput: {}
   }
   },
+  created() {
+  },
   methods: {
   register() {
   this.registerInput.username = this.$refs.username.value
   this.registerInput.password = this.$refs.password.value
   this.registerInput.confirm_password = this.$refs.confirm_password.value
-  axios.post('/api/v1/accounts', this.registerInput)
-  .then(res => { console.log(res) })
-  .catch(err => console.log(err));
+  this.$store.dispatch('register', this.registerInput)
   }
   }
 }
