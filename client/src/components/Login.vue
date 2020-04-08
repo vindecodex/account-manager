@@ -22,7 +22,10 @@
 
 <script>
 export default {
-  name: 'Login'
+  name: 'Login',
+  created() {
+  this.$store.getters.getState;
+  }
 }
 </script>
 
