@@ -1,5 +1,20 @@
 const Account = require('../models/account');
 
+exports.deleteAll = async (req, res) => {
+  try {
+	const accounts = await Account.deleteMany({})
+	res.status(204).json({
+	  status: 'success'
+	})
+  }
+  catch(err) {
+	res.status(400).json({
+	  status: 'fail',
+	  message: err
+	})
+  }
+}
+
 exports.getAccounts = async (req, res) => {
   try {
 	const accounts = await Account.find();
