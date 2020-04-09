@@ -9,6 +9,8 @@
 - [x] Mongoose
 - [x] MongoDB
 - [x] VueJS
+- [x] Vuex
+- [x] Vue-Router
 - [x] Axios
 
 *Also created Authentication for accessing routes using **JWT***
