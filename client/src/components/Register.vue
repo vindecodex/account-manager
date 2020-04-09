@@ -45,6 +45,10 @@ export default {
   confirmPassword: this.confirmPassword
   }
   this.$store.dispatch('register', registerInput)
+  .then(res => {
+  this.$router.push('/')
+  })
+  .catch(err => console.log(err))
   }
   }
 }
