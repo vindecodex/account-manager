@@ -65,6 +65,7 @@ exports.login = async (req, res, next) => {
   }
 }
 
+// protecting our rest api
 exports.protect = async (req, res, next) => {
   try {
 	// Get the token and check if not empty
@@ -96,5 +97,41 @@ exports.protect = async (req, res, next) => {
 	  status: 'fail',
 	  message: err
 	});
+  }
+}
+
+// authenticate our client
+exports.authenticateAccount = async (req, res, next) => {
+  try {
+	const authorization = req.headers.authorization;
+	let token;
+	if (authorization && authorization.startsWith('Bearer')) {
+	  token = authorization.split(' ')[1];
+	}
+
+	console.log("@@@@@@@@@@", JSON.stringify(req.headers))
+
+	if (!token) {
+	  return next(res.status(401).json({status: 'fail', message: 'You\'re not login please login.'}));
+	}
+
+	const decoded = await jwt.verify(token, process.env.JWT);
+
+	const account = await Account.findById(decoded.id);
+
+	if (!account) {
+	  return next(res.status(401).json({status: 'fail', message: 'Account does not exist'}));
+	}
+
+	res.status(200).json({
+	  status: 'success',
+	  account
+	})
+  }
+  catch(err) {
+	res.status(401).json({
+	  status: 'fail',
+	  message: err
+	})
   }
 }
