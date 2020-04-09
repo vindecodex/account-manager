@@ -9,6 +9,7 @@ const router = express.Router();
 // router.route('/')
 // .get(auth.protect, accountController.getAccounts)
 // .post(auth.createAccount)
+// .delete(auth.protect, accountController.deleteAll)
 //
 // router.route('/login')
 // .post(auth.login)
@@ -18,11 +19,14 @@ const router = express.Router();
 // .patch(auth.protect, accountController.updateAccount)
 // .delete(auth.protect, accountController.deleteAccount)
 //
+// router.route('authenticate')
+// .post(auth.authenticateAccount)
 //
 //
 router.route('/')
 .get(accountController.getAccounts)
 .post(auth.createAccount)
+.delete(accountController.deleteAll)
 
 router.route('/login')
 .post(auth.login)
@@ -31,5 +35,8 @@ router.route('/:id')
 .get(accountController.getAccount)
 .patch(accountController.updateAccount)
 .delete(accountController.deleteAccount)
+
+router.route('/authenticate')
+.post(auth.authenticateAccount)
 
 module.exports = router;
