@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import store from './store'
+import store from './store/store'
 
 import Login from './components/Login'
 import Register from './components/Register'
@@ -12,14 +12,14 @@ export const router = new VueRouter({
   mode: 'history',
   routes: [
 	{ 
-	  path: '',
+	  path: '/',
 	  component: Login,
 	  // to where it want to go (url)
 	  // from where it came from (url)
 	  // next proceed to a url
 	  beforeEnter(to, from, next) {
 		// check if token exist
-		if(store.state.token) {
+		if(store.getters.getState.token) {
 		  next('/dashboard')
 		} else {
 		  next()
@@ -30,7 +30,7 @@ export const router = new VueRouter({
 	  path: '/register',
 	  component: Register,
 	  beforeEnter(to, from, next) {
-		if(store.state.token) {
+		if(store.getters.getState.token) {
 		  next('/dashboard')
 		} else {
 		  next()
@@ -41,10 +41,10 @@ export const router = new VueRouter({
 	  path: '/dashboard',
 	  component: Dashboard,
 	  beforeEnter(to, from, next) {
-		if(store.state.token) {
+		if(store.getters.getState.token) {
 		  next()
 		} else {
-		  next('')
+		  next('/')
 		}
 	  }
 	}
