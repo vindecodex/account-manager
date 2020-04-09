@@ -8,6 +8,8 @@ import Dashboard from './components/Dashboard'
 
 Vue.use(VueRouter);
 
+const token = localStorage.getItem('token')
+
 export const router = new VueRouter({
   mode: 'history',
   routes: [
@@ -19,7 +21,7 @@ export const router = new VueRouter({
 	  // next proceed to a url
 	  beforeEnter(to, from, next) {
 		// check if token exist
-		if(store.getters.getState.token) {
+		if(token) {
 		  next('/dashboard')
 		} else {
 		  next()
@@ -30,7 +32,7 @@ export const router = new VueRouter({
 	  path: '/register',
 	  component: Register,
 	  beforeEnter(to, from, next) {
-		if(store.getters.getState.token) {
+		if(token) {
 		  next('/dashboard')
 		} else {
 		  next()
@@ -41,7 +43,7 @@ export const router = new VueRouter({
 	  path: '/dashboard',
 	  component: Dashboard,
 	  beforeEnter(to, from, next) {
-		if(store.getters.getState.token) {
+		if(token) {
 		  next()
 		} else {
 		  next('/')
