@@ -6,15 +6,15 @@
   <form>
   <div class="field">
 	<label for="username">username</label>
-	<input id="username" type="text" placeholder="username" ref="username" required>
+	<input v-model="username" id="username" type="text" placeholder="username" required>
   </div>
   <div class="field">
 	<label for="password">password</label>
-	<input id="password" type="password" placeholder="password" ref="password" required>
+	<input v-model="password" id="password" type="password" placeholder="password" required>
   </div>
   <div class="field">
 	<label for="password">Confirm Password</label>
-	<input id="confirm_password" type="password" placeholder="confirm password" ref="confirm_password" required>
+	<input v-model="confirmPassword" id="confirm_password" type="password" placeholder="confirm password" required>
   </div>
   <div class="action">
 	<button type="button" @click="register(e)" class="btn post-btn">Register</button>
@@ -30,17 +30,21 @@ export default {
   name: 'Register',
   data() {
   return {
-  registerInput: {}
+  username: null,
+  password: null,
+  confirmPassword: null
   }
   },
   created() {
   },
   methods: {
   register() {
-  this.registerInput.username = this.$refs.username.value
-  this.registerInput.password = this.$refs.password.value
-  this.registerInput.confirm_password = this.$refs.confirm_password.value
-  this.$store.dispatch('register', this.registerInput)
+  const registerInput = {
+  username: this.username,
+  password: this.password,
+  confirmPassword: this.confirmPassword
+  }
+  this.$store.dispatch('register', registerInput)
   }
   }
 }
