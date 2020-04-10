@@ -4,10 +4,12 @@ import { router } from './routes'
 import store from './store/store'
 import axios from 'axios'
 
+require('./store/subscriber')
+
 // we use this so that we only need to use /accounts or /anything  everytime we request
 axios.defaults.baseURL = '/api/v1'
 
-Vue.config.productionTip = false
+Vue.config.productionTip = true
 Vue.config.devtools = true
 
 store.dispatch('attempt', localStorage.getItem('token'))
