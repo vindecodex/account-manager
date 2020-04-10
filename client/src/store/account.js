@@ -27,46 +27,38 @@ export default {
 	// actions can be called by using dispatch('methodname')
 	// inside this object you can pass { commit, dispatch, state } if you wanted
 	register({ commit, state, dispatch }, registrationInput) {
-	  axios.post('/accounts', registrationInput)
-		.then(res => { 
-		  dispatch('attempt', res.data.token)
-		})
-		.catch(err => {
-		  console.log(err)
-		});
+	  return new Promise((resolve, reject) => {
+		axios.post('/accounts', registrationInput)
+		  .then(res => { 
+			dispatch('attempt', res.data.token)
+			resolve(res)
+		  })
+		  .catch(err => {
+			console.log(err)
+			reject(err)
+		  });
+	  })
 	},
 	attempt({ commit, state }, token) {
 	  if (token) {
 		commit('SET_TOKEN', token)
+		// we run subscriber cuase we listen to mutation
+		// which can be found on ./store/subscriber
 	  }
 
 	  if (!state.token) {
 		return
 	  }
 
-	  try {
-		axios({
-		  method: 'post',
-		  url: '/accounts/authenticate',
-		  headers: {
-			'Authorization': 'Bearer ' + token
-		  }
+	  axios.post('/accounts/authenticate')
+		.then(res => {
+		  commit('SET_ACCOUNT', res.data.account)
 		})
-		  .then(res => {
-			console.log(res)
-			commit('SET_ACCOUNT', res.data.account)
-			localStorage.setItem('token', token)
-		  })
-		  .catch(err => {
-
-		  })
-	  }
-	  catch (err) {
-		console.log(err)
-		commit('SET_TOKEN', null)
-		commit('SET_ACCOUNT', null)
-		localStorage.removeItem('token')
-	  }
+		.catch(err => {
+		  console.log(err)
+		  commit('SET_TOKEN', null)
+		  commit('SET_ACCOUNT', null)
+		})
 	},
 	login({ commit, dispatch }, loginInput) {
 	  axios.post('/accounts/login', loginInput)
