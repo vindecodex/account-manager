@@ -22,7 +22,9 @@
 
 <script>
 export default {
-  name: 'Dashboard'
+  name: 'Dashboard',
+  created() {
+  }
 }
 </script>
 
