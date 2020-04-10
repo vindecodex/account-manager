@@ -6,14 +6,14 @@
   <form>
   <div class="field">
 	<label for="username">username</label>
-	<input id="username" type="text" placeholder="username" required>
+	<input v-model="username" id="username" type="text" placeholder="username" required>
   </div>
   <div class="field">
 	<label for="password">password</label>
-	<input id="password" type="password" placeholder="password" required>
+	<input v-model="password" id="password" type="password" placeholder="password" required>
   </div>
   <div class="action">
-	<button class="btn post-btn">Login</button>
+	<button @click="login()" class="btn post-btn">Login</button>
 	<a href="/register" class="btn default-btn">Register</a>
   </div>
   </form>
@@ -23,10 +23,26 @@
 <script>
 export default {
   name: 'Login',
-  created() {
-  this.$store.getters.getState;
+  data() {
+  return {
+  username: '',
+  password: ''
   }
-}
+  },
+  methods: {
+  login() {
+  const loginInput = {
+  username: this.username,
+  password: this.password
+  }
+  this.$store.dispatch('login', loginInput)
+  .then(() => {
+  this.$router.push('/dashboard')
+  })
+  .catch(err => console.log(err))
+  }
+  }
+  }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
