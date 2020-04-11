@@ -109,8 +109,6 @@ exports.authenticateAccount = async (req, res, next) => {
 	  token = authorization.split(' ')[1];
 	}
 
-	console.log("@@@@@@@@@@", JSON.stringify(req.headers))
-
 	if (!token) {
 	  return next(res.status(401).json({status: 'fail', message: 'You\'re not login please login.'}));
 	}
