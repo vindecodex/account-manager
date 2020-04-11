@@ -13,7 +13,8 @@
 	<input v-model="password" id="password" type="password" placeholder="password" required>
   </div>
   <div class="action">
-	<button @click="login()" class="btn post-btn">Login</button>
+  <!-- remember when using button add type="button" to avoid reloading and may destroy your ajax request -->
+	<button type="button" @click="login()" class="btn post-btn">Login</button>
 	<a href="/register" class="btn default-btn">Register</a>
   </div>
   </form>
