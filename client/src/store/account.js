@@ -61,12 +61,17 @@ export default {
 		})
 	},
 	login({ commit, dispatch }, loginInput) {
+	  return new Promise((resolve, reject) => {
 	  axios.post('/accounts/login', loginInput)
 		.then(res => {
-		  console.log(res)
 		  dispatch('attempt', res.data.token)
+		  resolve(res)
 		})
-		.catch(err => console.log(err))
+		.catch(err => {
+		  console.log(err)
+		  reject(err)
+		});
+	  })
 	}
   },
   getters: {
