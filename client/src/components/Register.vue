@@ -17,7 +17,7 @@
 	<input v-model="confirmPassword" id="confirm_password" type="password" placeholder="confirm password" required>
   </div>
   <div class="action">
-	<button type="button" @click="register(e)" class="btn post-btn">Register</button>
+	<button type="button" @click="register()" class="btn post-btn">Register</button>
 	<a href="/" class="btn default-btn">Back</a>
   </div>
   </form>
