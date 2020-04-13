@@ -94,6 +94,16 @@ outline: none;
 box-shadow: 0px 0px 0px 1px #000 inset;
 }
 
+.delete {
+color: #FF0000;
+}
+
+.edit {
+color: #5089DE;
+}
+
+/* Media Query */
+
 @media only screen and (max-width: 800px) {
 
 #app {
