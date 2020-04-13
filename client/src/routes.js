@@ -4,6 +4,7 @@ import store from './store/store'
 
 import Login from './components/Login'
 import Register from './components/Register'
+import Edit from './components/Edit'
 import Dashboard from './components/Dashboard'
 
 Vue.use(VueRouter);
@@ -40,6 +41,17 @@ export const router = new VueRouter({
 	{
 	  path: '/dashboard',
 	  component: Dashboard,
+	  beforeEnter(to, from, next) {
+		if(localStorage.getItem('token')) {
+		  next()
+		} else {
+		  next('/')
+		}
+	  }
+	},
+	{
+	  path: '/edit/:id',
+	  component: Edit,
 	  beforeEnter(to, from, next) {
 		if(localStorage.getItem('token')) {
 		  next()
