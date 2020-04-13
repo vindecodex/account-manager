@@ -3,10 +3,19 @@ const Account = require('../models/account');
 
 const signToken = id => {
   // 60sec * 30 = 30mins
-  return jwt.sign({ id }, process.env.JWT, { expiresIn: 60 * 30 });
+  return jwt.sign({ id }, process.env.JWT, { expiresIn: 60 * 1000 });
 }
 
-exports.createAccount = async (req, res) => {
+exports.createAccount = async (req, res, next) => {
+
+  console.log(req.body)
+
+  if (req.body.password != req.body.confirmPassword) {
+	return next(res.status(400).json({
+	  status: 'fail',
+	  message: 'confirm password do not match'
+	}))
+  }
   try {
 	const account = await Account.create({
 	  username: req.body.username,
