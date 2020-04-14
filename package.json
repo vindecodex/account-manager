@@ -4,7 +4,8 @@
   "description": "**Simple Crud Operation** *I created this project to guide me in creating future projects*",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+	"start": "node server.js"
   },
   "repository": {
     "type": "git",
