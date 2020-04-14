@@ -27,7 +27,7 @@ export default {
 
 @font-face {
 font-family: 'Risque';
-src: url('@/assets/Risque/Risque-Regular.ttf')
+src: url('./assets/Risque/Risque-Regular.ttf')
 format('truetype');
 }
 
