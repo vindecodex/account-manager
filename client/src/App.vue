@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+  <button v-if="is_authenticated" type="button" @click="logout()" class="logout">Logout</button>
   <router-view></router-view>
   </div>
 </template>
@@ -7,7 +8,18 @@
 <script>
 export default {
   name: 'App',
-  components: {
+  data() {
+  return {
+  is_authenticated: null
+  }
+  },
+  created() {
+  this.is_authenticated = localStorage.getItem('token')
+  },
+  methods: {
+  logout() {
+  this.$store.dispatch('logout')
+  }
   }
 }
 </script>
@@ -25,6 +37,20 @@ margin: 0;
 padding: 0;
 box-sizing: border-box;
 text-decoration: none;
+}
+
+.logout {
+width: 100%;
+background: red;
+border: 2px solid #000;
+padding: 20px;
+color: #fff;
+font-size: 25px;
+}
+
+.logout:hover {
+cursor: pointer;
+background: #f15a5a;
 }
 
 .container {
