@@ -39,6 +39,28 @@ export default {
 		  });
 	  })
 	},
+
+
+	login({ commit, dispatch }, loginInput) {
+	  return new Promise((resolve, reject) => {
+	  axios.post('/accounts/login', loginInput)
+		.then(res => {
+		  dispatch('attempt', res.data.token)
+		  resolve(res)
+		})
+		.catch(err => {
+		  console.log(err)
+		  reject(err)
+		});
+	  })
+	},
+
+	logout({ commit }) {
+	  commit('SET_TOKEN', null)
+	  commit('SET_ACCOUNT', null)
+	  localStorage.removeItem('token')
+	},
+
 	attempt({ commit, state }, token) {
 	  if (token) {
 		commit('SET_TOKEN', token)
@@ -59,19 +81,6 @@ export default {
 		  commit('SET_TOKEN', null)
 		  commit('SET_ACCOUNT', null)
 		})
-	},
-	login({ commit, dispatch }, loginInput) {
-	  return new Promise((resolve, reject) => {
-	  axios.post('/accounts/login', loginInput)
-		.then(res => {
-		  dispatch('attempt', res.data.token)
-		  resolve(res)
-		})
-		.catch(err => {
-		  console.log(err)
-		  reject(err)
-		});
-	  })
 	}
   },
   getters: {
