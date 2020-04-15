@@ -1,5 +1,8 @@
 node_modules/
-.env
+
+# uncomment .env if real project is doing
+#.env
+
 public/
 
 client/node_modules
