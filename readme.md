@@ -14,3 +14,8 @@
 - [x] Axios
 
 *Also created Authentication for accessing routes using **JWT***
+
+### Issues
+
+- There is still a bug on my state management vuex
+- Requires refresh to take effect of data changes like deleting data and the login button
