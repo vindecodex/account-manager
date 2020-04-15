@@ -3,7 +3,7 @@ node_modules/
 # uncomment .env if real project is doing
 #.env
 
-public/
+#public/
 
 client/node_modules
 
